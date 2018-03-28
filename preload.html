@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+        <script>
+            function loadImage() {
+                var preload = new createjs.LoadQueue();
+                preload.addEventListener("loadFile", handleFileComplete);
+                preload.loadFile("assets/dog.jpeg");
+            }
+
+            function handleFileComplete(event) {
+                document.body.appendChild(event.result);
+            }
+        </script>
+    </head>
+    <body>
+        <button onclick="loadImage();" class="loadFile">Load Image</button>
+    </body>
+</html>

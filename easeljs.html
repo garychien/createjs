@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script>      
+      function init() {
+        var stage = new createjs.Stage("demoCanvas");
+//        var circle = new createjs.Shape();
+        var circle = new createjs.Text("Hello World", "40px Arial", "#ff7700")
+//        circle.graphics.beginFill("red").drawCircle(0, 0, 50);
+//        circle.graphics.beginFill("blue").drawRect(20, 20, 100, 50);
+//        circle.graphics.beginFill("blue").drawRoundRect(0, 0, 100, 50, 50);
+
+//        circle.x = 100;
+//        circle.y = 100;
+        stage.addChild(circle);
+        stage.update();
+      }
+    </script>
+  </head>
+  <body onload="init();">
+    <canvas id="demoCanvas" width="500" height="200"></canvas>
+  </body>
+</html>

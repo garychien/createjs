@@ -1,0 +1,188 @@
+<html>
+<head>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script>
+        function init() {
+            var stage = new createjs.Stage("demoCanvas");
+            var circle1 = new createjs.Shape();
+            var circle2 = new createjs.Shape();
+            var circle3 = new createjs.Shape();
+            var circle4 = new createjs.Shape();
+            var circle5 = new createjs.Shape();
+            var circle6 = new createjs.Shape();
+            var circle7 = new createjs.Shape();
+            var circle8 = new createjs.Shape();
+            var circle9 = new createjs.Shape();
+            var circle10 = new createjs.Shape();
+            var circle11 = new createjs.Shape();
+            var circle12 = new createjs.Shape();
+
+            var r = 180;
+
+            drawSector(circle1, 200, 200, r, 30, 0, 'red');
+            drawSector(circle2, 200, 200, r, 30, 30, 'gray');
+            drawSector(circle3, 200, 200, r, 30, 60, 'yellow');
+            drawSector(circle4, 200, 200, r, 30, 90, 'black');
+            drawSector(circle5, 200, 200, r, 30, 120, 'green');
+            drawSector(circle6, 200, 200, r, 30, 150, 'blue');
+            drawSector(circle7, 200, 200, r, 30, 180, 'orange');
+            drawSector(circle8, 200, 200, r, 30, 210, 'purple');
+            drawSector(circle9, 200, 200, r, 30, 240, '#7fff00');
+            drawSector(circle10, 200, 200, r, 30, 270, '#ff69b4');
+            drawSector(circle11, 200, 200, r, 30, 300, '#ffe4b5');
+            drawSector(circle12, 200, 200, r, 30, 330, '#00bfff');
+
+            reg(circle1, 200, 200);
+            reg(circle2, 200, 200);
+            reg(circle3, 200, 200);
+            reg(circle4, 200, 200);
+            reg(circle5, 200, 200);
+            reg(circle6, 200, 200);
+            reg(circle7, 200, 200);
+            reg(circle8, 200, 200);
+            reg(circle9, 200, 200);
+            reg(circle10, 200, 200);
+            reg(circle11, 200, 200);
+            reg(circle12, 200, 200);
+
+            stage.addChild(circle1);
+            stage.addChild(circle2);
+            stage.addChild(circle3);
+            stage.addChild(circle4);
+            stage.addChild(circle5);
+            stage.addChild(circle6);
+            stage.addChild(circle7);
+            stage.addChild(circle8);
+            stage.addChild(circle9);
+            stage.addChild(circle10);
+            stage.addChild(circle11);
+            stage.addChild(circle12);
+
+            var deg = Math.round(Math.random()*360);
+            // 圈數
+            var circle = Math.floor(Math.random()*10+1) *360;
+            total = deg + circle;
+
+            rotate(circle1, total);
+            rotate(circle2, total);
+            rotate(circle3, total);
+            rotate(circle4, total);
+            rotate(circle5, total);
+            rotate(circle6, total);
+            rotate(circle7, total);
+            rotate(circle8, total);
+            rotate(circle9, total);
+            rotate(circle10, total);
+            rotate(circle11, total);
+            rotate(circle12, total);
+
+
+
+            var container = new createjs.Container();
+            container.x = 400;
+            container.y = 400;
+            container.rotation = 10;
+
+            var shape = new createjs.Shape(
+                new createjs.Graphics().beginFill("#999").drawRect(0,0,50,50)
+            );
+
+            var bitmap = new createjs.Bitmap("assets/dog.jpeg");
+            bitmap.x = 100;
+            bitmap.scaleX = 0.5;
+            bitmap.scaleY = 0.5;
+
+            var text = new createjs.Text("Hello World", "24px Arial", "#990000");
+            text.x = 200;
+
+            container.addChild(shape, bitmap, text);
+            createjs.Tween.get(container, {loop: false})
+                .to({rotation: 370}, 2000, createjs.Ease.cubicInOut);
+
+
+            var container2 = new createjs.Container();
+            container2.x = 600;
+            container2.y = 200;
+            container2.regX = 600;
+            container2.regY = 200;
+
+            circle2 = new createjs.Shape();
+            circle2.graphics.beginStroke('black');
+            circle2.graphics.setStrokeStyle(1);
+            drawSector(circle2, 600, 200, 150, 30, 270, 'red');
+
+            var text2 = new createjs.Text("Hello", "24px Arial", "black");
+            text2.x = 637;
+            text2.y = 115;
+            text2.rotation = 105;
+
+            container2.addChild(circle2, text2);
+            createjs.Tween.get(container2, {loop: false}, true).to({rotation: 360}, 2000, createjs.Ease.cubicInOut);
+
+            var border = new createjs.Shape();
+            border.graphics.beginFill('green');
+            border.graphics.beginStroke("#000");
+            border.graphics.setStrokeStyle(5);
+            border.snapToPixel = true;
+            border.graphics.drawRect(0, 0, 400, 200);
+            border.x = 100;
+            border.y = 400;
+
+            stage.addChild(container2);
+            stage.addChild(border);
+            stage.addChild(container);
+            createjs.Ticker.setFPS(60);
+            createjs.Ticker.on("tick", stage);
+        }
+
+        // 製作扇形
+        function drawSector(mc, x, y, r, angle, startFrom, color) {
+            mc.graphics.clear;
+            mc.graphics.beginFill(color);
+            mc.graphics.moveTo(x, y);
+            angle = (Math.abs(angle) > 360) ? 360 : angle;
+            startFrom = startFrom * Math.PI / 180;
+            var x1=x+r * Math.cos(startFrom);
+            var y1=y+r * Math.sin(startFrom);
+            var endAngle=startFrom+angle*Math.PI/180;
+            mc.graphics.lineTo(x1,y1);
+            mc.graphics.arc(x,y,r,startFrom,endAngle,false);
+            if (angle != 360) {
+                mc.graphics.lineTo(x, y);
+            }
+            mc.graphics.endFill;
+        }
+
+        // 宣告mc的位置及中心點
+        function reg(mc, x, y) {
+            mc.x = x;
+            mc.y = y;
+            mc.regX = x;
+            mc.regY = y;
+        }
+
+//        var total = 0;
+        // 轉動
+        function rotate(mc, total) {
+                // 角度
+//                var deg = Math.round(Math.random()*360);
+//                // 圈數
+//                var circle = Math.floor(Math.random()*10+1) *360;
+//                total += deg + circle;
+
+                // 旋轉
+                createjs.Tween.get(mc, {loop: false}, true)
+                    .to({rotation: total}, 4000, createjs.Ease.cubicInOut); // createjs.Ease.cubicInOut 為 transition 效果
+
+//                setTimeout(function() {
+////                  alert('congratulation');
+//                    status = true;
+//                }, 4000);
+        }
+    </script>
+</head>
+<body onload="init();">
+<canvas id="demoCanvas" width="1000" height="1000"></canvas>
+<button class="zoom">tset</button>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<html>
+<head>
+    <style>
+        .test {
+            background: cornflowerblue;
+            padding: 2px 5px;
+            color: white;
+        }
+
+        .heading {
+            background-color: darkgoldenrod;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            font-size: 50px;
+            color: white;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+        }
+        heading span {
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.25s;
+        }
+        .heading span:hover {
+            transform: translateY(-20px) rotate(10deg) scale(2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="add-comment">
+            <textarea class="comment-text"></textarea>
+            <button>Post Comment</button>
+        </form>
+         <div class="comment"></div>
+
+        <ul>
+            <li>GO to store</li>
+            <li>Watch</li>
+            <li>Shopping</li>
+        </ul>
+    </div>
+
+    <h2 class="heading">Laravel!</h2>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.3/purify.min.js"></script>
+    <script>
+        /* 11 標籤模版 */
+        /*
+        function highlight(strings, ...values) {
+            const high = values.map(value => `<span class="test">${value}</span>`);
+
+//            let str = '';
+//            strings.forEach((string, i) => str += `${string}${high[i] || ''}`);
+//
+//            return str;
+
+            // 亦可這麼寫
+             return strings.reduce((prev, curr, i) => `${prev}${curr}${high[i] || ''}`, '');
+        }
+
+        const user = 'Mary';
+        const topic = 'Learn to uer markdown';
+        const sentence = highlight`${user} has commented on your topic ${topic}`;
+
+        document.body.innerHTML = sentence;
+        */
+
+        /* 12 DOMPurify 過濾字符串 */
+        /*
+        const addCommentForm = document.querySelector('.add-comment');
+        const textarea = document.querySelector('.comment-text');
+        const commentDiv = document.querySelector('.comment');
+        const user = 'Mary';
+
+        addCommentForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newComment = textarea.value.trim();
+            if (newComment) {
+                commentDiv.innerHTML =  sanitize`
+                    <div class="comment-header">${user}</div>
+                    <div class="comment-body">${textarea.value}</div>
+                `;
+
+                textarea.value = '';
+            }
+        });
+
+        function sanitize(strings, ...values) {
+            const dirty = strings.reduce((pre, curr, i) => `${pre}${curr}${values[i] || ''}`, '');
+
+            return DOMPurify.sanitize(dirty);
+        }
+        */
+
+        /* 17 entries() */
+        /*
+        const fruits = ['apple', 'banana', 'orange', 'mango'];
+        for (let [index, fruit] of fruits.entries()) {
+            console.log(`${fruit} ranks ${index}`);
+        }
+        */
+
+        /* 18 array .from() and .of() */
+        /*
+        const todos = document.querySelectorAll('li');
+        const name = Array.from(todos, (todo) => todo.textContent);
+
+        function sum() {
+            return Array.from(arguments).reduce((prev, curr) => prev + curr, 0);
+        }
+
+        const website = 'laravel';
+        console.log(Array.from(website));
+        */
+
+        /* 19 .find() .findIndex() .some() .every() */
+        /*
+        const inventory = [
+            {name: 'apple', quantity: 2},
+            {name: 'banana', quantity: 0},
+            {name: 'cherries', quantity: 5},
+        ];
+
+        const ban = inventory.find(fruit => fruit.name === 'banana');
+        const ban_index = inventory.findIndex(fruit => fruit.name === 'banana');
+        const is_enouth = inventory.some(fruit => fruit.quantity > 0);
+        const is_all_enouth = inventory.every(fruit => fruit.quantity > 0);
+        console.log(is_all_enouth);
+        */
+
+        /* 20 剩餘參數 */
+        /*
+        function sum(...number) { // 剩餘參數（數組）
+            return number.reduce((prev, curr) => prev + curr, 0);
+        }
+        sum(1, 3, 5);
+
+        function converCurrency(rate, ...amounts) {
+            return amounts.map(amount => rate * amount)
+        }
+        const amounts = converCurrency(0.89, 12, 14, 16, 234);
+
+        const player = ['Jelly', '95527', '20', '44', '68', '32'];
+        const [name, id, ...score] = player;
+        console.log(name);
+        console.log(id);
+        console.log(score);
+        */
+
+        /* 21 擴展運算符 */
+        /*
+        const youngers = ['Tom', 'Mary', 'Kate'];
+        const old = ['yetta', 'John', 'Henny'];
+        const total = youngers.concat(old);
+        total.push('Mary');
+
+        const member = [...youngers, 'May', ...old];
+        console.log(total);
+        console.log(member);
+        */
+
+        /* 22 */
+        /*
+        const head = document.querySelector('.heading');
+
+        head.innerHTML = wrapWhiteSpan(head.textContent);
+
+        function wrapWhiteSpan(word) {
+            return [...word].map(letter => `<span>${letter}</span>`).join('');
+        }
+        */
+
+        /* 23 */
+        /*
+        const lis = [...document.querySelectorAll('li')];
+        const name = lis.map(word => word.textContent);
+
+        const todos = [
+            {id: 1, name: 'GO to store', completed: false},
+            {id: 2, name: 'Watch', completed: true},
+            {id: 3, name: 'Shopping', completed: false},
+        ];
+        const index = 2;
+        const todoIndex = todos.findIndex(todo => todo.id === index);
+        const newTodos = [...todos.slice(0, todoIndex), ...todos.slice(todoIndex + 1)];
+        */
+
+        /* 24 */
+        /*
+        const fruit = ['apple', 'banana', 'orange'];
+        const newFruit = ['mongo', 'pear'];
+        fruit.push(...newFruit);
+
+        const dateFields = [2018, 3, 23];
+        const date = new Date(...dateFields);
+        console.log(date);
+        */
+
+        /* 25 */
+        /*
+        // 屬性名和變量名相同時
+        const name = 'Jelly';
+        const age = 25;
+        const birthday = '1993-06-30';
+
+        const Jelly = {
+            name,
+            age,
+            birthday,
+        }
+
+        // 對象方法的簡寫
+        const Mary = {
+            name: 'Mary',
+            greet() {
+                alert('hello');
+            },
+            perfect() {
+                alert('hello');
+            },
+            cool() {
+                alert('hello');
+            }
+        }
+
+        // 計算屬性
+        let id = 0;
+        const userIsd = {
+            [`user-${++id}`]: id,
+            [`user-${++id}`]: id,
+            [`user-${++id}`]: id,
+        }
+
+        // 使用數組的 shift()
+        const keys = ['name', 'age', 'birthday'];
+        const values = ['Fion', '25', '1993-06-30'];
+        const Fion = {
+            [keys.shift()]: values.shift(),
+            [keys.shift()]: values.shift(),
+            [keys.shift()]: values.shift(),
+        }
+        console.log(Fion);
+        */
+    </script>
+</body>
+</html>

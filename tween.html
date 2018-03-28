@@ -1,0 +1,407 @@
+<html>
+  <head>
+    <style>
+      body {
+        font-family: 'wenxue';
+      }
+      #democanvas {
+        display: none;position: fixed
+      }
+      .loading {
+        /*background-color: #F05A50;*/
+        width: 100%;
+        position: relative;
+        margin-top: 200px;
+      }
+      .main {
+        width: 60%;
+        margin: 0 auto;
+        color: red;
+      }
+      .title {
+        font-size: 20px;
+      }
+      .bar {
+        height: 17px;
+        width: 100%;
+        border: 3px solid red;
+        border-radius: 20px;
+        margin: .1rem 0;
+      }
+      .sub {
+        height: 13px;
+        width: 98%;
+        margin: 2px 2px 0;
+      }
+      .percent {
+        height: 100%;
+        width: 0;
+        background-color: red;
+        border-radius: 20px;
+        transition: width .5s;
+      }
+      .progress {
+        text-align: center;
+      }
+    </style>
+
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script src="./assets/engine.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+      /*
+      function init1() {
+        var stage = new createjs.Stage("demoCanvas");
+        var circle1 = new createjs.Shape();
+        var circle2 = new createjs.Shape();
+        var circle3 = new createjs.Shape();
+        var circle4 = new createjs.Shape();
+        var circle5 = new createjs.Shape();
+        var circle6 = new createjs.Shape();
+        drawSector(circle1, 200, 200, 100, 60, 0, 'red');
+        drawSector(circle2, 200, 200, 100, 60, 60, 'gray');
+        drawSector(circle3, 200, 200, 100, 60, 120, 'yellow');
+        drawSector(circle4, 200, 200, 100, 60, 180, 'black');
+        drawSector(circle5, 200, 200, 100, 60, 240, 'green');
+        drawSector(circle6, 200, 200, 100, 60, 300, 'blue');
+
+        reg(circle1, 200, 200);
+        reg(circle2, 200, 200);
+        reg(circle3, 200, 200);
+        reg(circle4, 200, 200);
+        reg(circle5, 200, 200);
+        reg(circle6, 200, 200);
+
+        stage.addChild(circle1);
+        stage.addChild(circle2);
+        stage.addChild(circle3);
+        stage.addChild(circle4);
+        stage.addChild(circle5);
+        stage.addChild(circle6);
+
+        rotate(circle1);
+        rotate(circle2);
+        rotate(circle3);
+        rotate(circle4);
+        rotate(circle5);
+        rotate(circle6);
+
+          //circle.graphics.beginFill("Crimson").drawCircle(0, 0, 50);
+//        circle.graphics.beginFill("gray").drawRect(0,0,100,100);
+
+//        circle.x = 200;
+//        circle.y = 400;
+//        circle.regX = 50;
+//        circle.regY = 50;
+//        stage.addChild(circle);
+
+
+        // 移動
+//        createjs.Tween.get(circle, {loop: true})
+//          .to({x: 400}, 1000, createjs.Ease.getPowInOut(4))
+//          .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+//          .to({alpha: 0, y: 125}, 100)
+//          .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+//          .to({x: 100}, 800, createjs.Ease.getPowInOut(2));
+
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.on("tick", stage);
+      }
+      */
+
+      /**
+       * 製作扇型
+       * @param mc 扇型名稱
+       * @param x 水平軸
+       * @param y 垂直軸
+       * @param r 半徑
+       * @param angle 扇型的角度
+       * @param startFrom 起使角度
+       * @param color 扇型顏色
+       */
+      function drawSector(mc, x, y, r, angle, startFrom, color) {
+          mc.graphics.clear;
+          mc.graphics.beginFill(color);
+          mc.graphics.moveTo(x, y);
+          angle = (Math.abs(angle) > 360) ? 360 : angle;
+          startFrom = startFrom * Math.PI / 180;
+          var x1=x+r * Math.cos(startFrom);
+          var y1=y+r * Math.sin(startFrom);
+          var endAngle=startFrom+angle*Math.PI/180;
+          mc.graphics.lineTo(x1,y1);
+          mc.graphics.arc(x,y,r,startFrom,endAngle,false);
+          if (angle != 360) {
+              mc.graphics.lineTo(x, y);
+          }
+          mc.graphics.endFill;
+      }
+
+      // 宣告mc的位置及中心點
+      function reg(mc, x, y) {
+          mc.x = x;
+          mc.y = y;
+          mc.regX = x;
+          mc.regY = y;
+      }
+
+      function init() {
+          var stage = new createjs.Stage("demoCanvas");
+
+          // 橘圓
+          var circle = new createjs.Shape();
+          circle.graphics.beginStroke("black");// 框線顏色
+          circle.graphics.setStrokeStyle(2);// 框線大小
+          circle.graphics.beginFill("gray").drawCircle(343, 285, 240);
+
+          // 背景圖
+          bg = new createjs.Bitmap('assets/turntable-bg.jpg');
+
+          // 輪盤
+          shape = new createjs.Bitmap('assets/turntable.png');
+          shape.x = 343;
+          shape.y = 285;
+          shape.regX = 225;
+          shape.regY = 225;
+
+          // 抽獎圖
+          point = new createjs.Bitmap('assets/pointer.png');
+          point.x = 255;
+          point.y = 150;
+
+          // 增加點擊事件
+          point.addEventListener('click', function(){rotate()});
+
+
+          circle1 = new createjs.Shape();
+          circle2 = new createjs.Shape();
+          circle3 = new createjs.Shape();
+          circle4 = new createjs.Shape();
+          circle5 = new createjs.Shape();
+          circle6 = new createjs.Shape();
+
+          x1 = 343;
+          y1 = 285;
+          r1 = 230;
+
+          drawSector(circle1, x1, y1, r1, 60, 270, 'red');
+          drawSector(circle2, x1, y1, r1, 60, 330, 'purple');
+          drawSector(circle3, x1, y1, r1, 60, 30, 'yellow');
+          drawSector(circle4, x1, y1, r1, 60, 90, 'black');
+          drawSector(circle5, x1, y1, r1, 60, 150, 'green');
+          drawSector(circle6, x1, y1, r1, 60, 210, 'blue');
+
+          container1 = new createjs.Container();
+          container2 = new createjs.Container();
+          container3 = new createjs.Container();
+          container4 = new createjs.Container();
+          container5 = new createjs.Container();
+          container6 = new createjs.Container();
+
+          var text1 = new createjs.Text("iPhoneX", "24px Arial", "black");
+          text1.x = 390;
+          text1.y = 120;
+          text1.rotation = 30;
+
+          var text2 = new createjs.Text("電冰箱", "24px Arial", "black");
+          text2.x = 510;
+          text2.y = 250;
+          text2.rotation = 90;
+
+          var text3 = new createjs.Text("電風扇", "24px Arial", "black");
+          text3.x = 460;
+          text3.y = 420;
+          text3.rotation = 150;
+
+          var text4 = new createjs.Text("瑪莎拉蒂", "24px Arial", "white");
+          text4.x = 300;
+          text4.y = 460;
+          text4.rotation = 210;
+
+          var text5 = new createjs.Text("mac pro", "24px Arial", "white");
+          text5.x = 170;
+          text5.y = 320;
+          text5.rotation = 270;
+
+          var text6 = new createjs.Text("乖乖", "24px Arial", "white");
+          text6.x = 240;
+          text6.y = 150;
+          text6.rotation = 330;
+
+          dog = new createjs.Bitmap('assets/dog.jpeg');
+          dog.x = 220;
+          dog.y = 110;
+          dog.scaleX = 0.2;
+          dog.scaleY = 0.2;
+          dog.rotation = 330;
+
+          maserati = new createjs.Bitmap('assets/maserati.jpg');
+          maserati.x = 250;
+          maserati.y = 490;
+          maserati.scaleX = 0.1;
+          maserati.scaleY = 0.1;
+          maserati.rotation = 210;
+
+          // 位置、中心點
+          reg(container1, x1, y1);
+          reg(container2, x1, y1);
+          reg(container3, x1, y1);
+          reg(container4, x1, y1);
+          reg(container5, x1, y1);
+          reg(container6, x1, y1);
+
+          container1.addChild(circle1, text1);
+          container2.addChild(circle2, text2);
+          container3.addChild(circle3, text3);
+          container4.addChild(circle4, text4, maserati);
+          container5.addChild(circle5, text5);
+          container6.addChild(circle6, text6, dog);
+
+//          stage.addChild(bg);
+          stage.addChild(circle);
+          stage.addChild(container1);
+          stage.addChild(container2);
+          stage.addChild(container3);
+          stage.addChild(container4);
+          stage.addChild(container5);
+          stage.addChild(container6);
+//          stage.addChild(shape);
+          stage.addChild(point);
+          stage.update();
+
+          createjs.Ticker.setFPS(60);
+          createjs.Ticker.on("tick", stage);
+//          createjs.Ticker.on("tick", tickHandler);
+      }
+
+      // 持續執行此function
+      function tickHandler(even) {
+          shape.rotation += 2;
+          stage.update();
+      }
+
+      var total = 0;
+      var status = true;
+      // 轉動
+      function rotate() {
+          if (status == 'true') {
+              status = false;
+
+              // 角度
+              var deg = Math.round(Math.random() * 360);
+              // 圈數
+              var circle = Math.floor(Math.random() * 10 + 1) * 360;
+
+              total += deg + circle;
+              var sel = Math.ceil(total % 360 / 60);
+              console.log(sel);
+
+              if (Number(sel) == 1) {
+                  choose = container6;
+              } else if (Number(sel) == 2) {
+                  choose = container5;
+              } else if (Number(sel) == 3) {
+                  choose = container4;
+              } else if (Number(sel) == 4) {
+                  choose = container3;
+              } else if (Number(sel) == 5) {
+                  choose = container2;
+              } else {
+                  choose = container1;
+              }
+
+              // 旋轉 createjs.Ease.cubicInOut 為 css transition 效果
+              createjs.Tween.get(container1, {loop: false}, true).to({rotation: total}, 4000, createjs.Ease.cubicInOut);
+              createjs.Tween.get(container2, {loop: false}, true).to({rotation: total}, 4000, createjs.Ease.cubicInOut);
+              createjs.Tween.get(container3, {loop: false}, true).to({rotation: total}, 4000, createjs.Ease.cubicInOut);
+              createjs.Tween.get(container4, {loop: false}, true).to({rotation: total}, 4000, createjs.Ease.cubicInOut);
+              createjs.Tween.get(container5, {loop: false}, true).to({rotation: total}, 4000, createjs.Ease.cubicInOut);
+              createjs.Tween.get(container6, {loop: false}, true).to({rotation: total}, 4000, createjs.Ease.cubicInOut);
+
+              setTimeout(function() {
+                  createjs.Tween.get(choose, {loop: false})
+                      .to({alpha: 0, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 1, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 0, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 1, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 0, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 1, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 0, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 1, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 0, y: 285}, 100, createjs.Ease.getPowInOut(2))
+                      .to({alpha: 1, y: 285}, 100, createjs.Ease.getPowInOut(2));
+              }, 4000);
+
+              setTimeout(function () {
+                  status = true;
+              }, 5000);
+          }
+      }
+    </script>
+  </head>
+
+  <body onload="init();">
+    <canvas id="demoCanvas" width="1000" height="700"></canvas>
+
+    <div class="loading">
+      <div class="main">
+        <div class="progress">
+          <div class="title font-wenxue">0%</div>
+          <div class="bar">
+            <div class="sub">
+              <div class="percent"></div>
+            </div>
+          </div>
+          <div class="text">加载中</div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+      gameReady();
+
+      // 改變進度條%
+      function updateLoading(status) {
+          var success = status.success;
+          var total = status.total;
+
+          var percent = parseInt((success / total) * 100);
+
+          console.log(status);
+
+          if (percent === 100) {
+
+              setTimeout(function() {
+                  $('.loading').hide();
+                  $('#demoCanvas').show();
+              }, 1000);
+          }
+          percent = percent > 98 ? 98 : percent
+          percent = percent + '%';
+          $('.loading .title').text(percent);
+          $('.loading .percent').css({'width': percent});
+      }
+
+      function gameReady() {
+          game = TowerGame();
+          console.log(game);
+
+          game.load(function () {}, updateLoading);
+      }
+
+      function TowerGame() {
+          const game = new Engine({});
+          const pathGenerator = (path) => `./assets/${path}`;
+
+          game.addImg('pointer', pathGenerator('pointer.png'));
+          game.addImg('turntable', pathGenerator('turntable.png'));
+          game.addImg('background', pathGenerator('turntable-bg.jpg'));
+          game.addImg('picture', pathGenerator('dog.jpeg'));
+          game.addImg('car', pathGenerator('maserati.jpg'));
+          game.addImg('animal', 'https://www.bomb01.com/upload/news/original/ae1f172ff5cfadecd6e56e94c887e64e.jpg');
+          game.addAudio('music', pathGenerator('music.mp3'));
+
+          return game;
+      }
+  </script>
+</html>
